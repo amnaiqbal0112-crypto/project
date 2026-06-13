@@ -146,6 +146,8 @@ if "embeddings_loaded" not in st.session_state:
     st.session_state.embeddings_loaded = False
 if "llm_loaded" not in st.session_state:
     st.session_state.llm_loaded = False
+if "pdf_name" not in st.session_state:
+    st.session_state.pdf_name = ""
 
 # Lazy loader helper functions
 def get_embeddings():
@@ -289,6 +291,7 @@ with st.sidebar:
                 if vectorstore:
                     st.session_state.vectorstore = vectorstore
                     st.session_state.pdf_processed = True
+                    st.session_state.pdf_name = uploaded_file.name
                     st.session_state.pages = pages
                     st.session_state.chunks = chunks
                     # Clear previous state on new PDF upload
@@ -300,7 +303,7 @@ with st.sidebar:
                     st.rerun()
                     
     if st.session_state.pdf_processed:
-        st.success(f"✅ Loaded: {uploaded_file.name}")
+        st.success(f"✅ Loaded: {st.session_state.pdf_name}")
         st.markdown(f"**Pages:** {st.session_state.pages}")
         st.markdown(f"**Text Chunks:** {st.session_state.chunks}")
         
